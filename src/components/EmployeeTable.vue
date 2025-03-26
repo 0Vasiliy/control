@@ -16,8 +16,8 @@
         <td>{{ employee.position }}</td>
         <td>{{ employee.salary }}</td>
         <td>
-          <button @click="$emit('edit', employee)">Редактировать</button>
-          <button @click="$emit('delete', employee.id)">Удалить</button>
+          <button class="edit_btn" @click="$emit('edit', employee)">Редактировать</button>
+          <button class="delete_btn" @click="$emit('delete', employee.id)">Удалить</button>
         </td>
       </tr>
     </tbody>
@@ -68,11 +68,22 @@ tr:nth-child(even) {
 button {
   margin-right: 5px;
   padding: 5px 10px;
+  width: 120px;
   cursor: pointer;
+}
+.edit_btn{
   background-color: #4CAF50;
   color: white;
 }
-button:hover {
+
+.edit_btn:hover {
   background-color: #45a049;
+}
+.delete_btn{
+  background-color: #f44336;
+  color: white;
+}
+.delete_btn:hover{
+  background-color: #e4372a;
 }
 </style>
