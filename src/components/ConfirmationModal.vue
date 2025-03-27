@@ -3,8 +3,8 @@
     <div class="modal-content">
       <h3>{{ message }}</h3>
       <div class="buttons">
-        <button @click="confirm">Да</button>
-        <button @click="cancel">Нет</button>
+        <button class="btn-modal-eys" @click="confirm">Да</button>
+        <button class="btn-modal-no" @click="cancel">Нет</button>
       </div>
     </div>
   </div>
@@ -59,5 +59,19 @@ const cancel = () => {
 button {
   padding: 8px 16px;
   cursor: pointer;
+}
+.btn-modal-eys{
+  background-color: #4CAF50;
+  color: white;
+}
+.btn-modal-eys:hover {
+  background-color: #45a049;
+}
+.btn-modal-no{
+  background-color: #f44336;
+  color: white;
+}
+.btn-modal-no:hover {
+  background-color: #e4372a;
 }
 </style>
