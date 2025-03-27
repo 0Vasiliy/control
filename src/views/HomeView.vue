@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!-- <LoginView/>
-    <RegisterView/> -->
     <h1>Список сотрудников</h1>
-    <button @click="openModal">Добавить сотрудника</button>
-    
-    <!-- Проверка на наличие сотрудников -->
+    <button @click="openModal">Добавить сотрудника</button>  
     <div v-if="employees.length > 0">
-      <EmployeeTable :employees="employees" @edit="openModal" @delete="deleteEmployee" />
+      <EmployeeTable 
+        :employees="employees" 
+        @edit="openModal" 
+        @delete="deleteEmployee" 
+      />
       <Pagination 
         :currentPage="currentPage" 
         :totalPages="totalPages" 
@@ -34,8 +34,6 @@ import EmployeeTable from '../components/EmployeeTable.vue';
 import EmployeeModal from '../components/EmployeeModal.vue';
 import Pagination from '../components/Pagination.vue';
 import { useRouter } from 'vue-router';
-// import LoginView from './LoginView.vue';
-// import RegisterView from './RegisterView.vue';
 
 const router = useRouter();
 const employeeStore = useEmployeeStore();
@@ -111,6 +109,7 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  overflow: hidden;
 }
 
 button:hover {

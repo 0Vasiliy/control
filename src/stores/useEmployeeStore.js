@@ -1,4 +1,3 @@
-// useEmployeeStore.js
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { initializeApp } from 'firebase/app';
@@ -53,29 +52,72 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   };
 
-  // Функция для добавления сотрудника
+  // Функция для обновления сотрудника
   const addEmployee = async (employee) => {
     try {
+      const fullEmployee = {
+        ...employee,
+        changesHistory: [],
+        comments: employee.comment ? [employee.comment] : [],
+        positionChanges: employee.position ? [{
+          action: 'initial',
+          position: employee.position,
+          date: employee.changeDate || new Date().toISOString()
+        }] : [],
+        salaryChanges: employee.salary ? [{
+          salary: employee.salary,
+          monthlyBonus: employee.monthlyBonus || 0,
+          quarterlyBonus: employee.quarterlyBonus || 0,
+          date: employee.changeDate || new Date().toISOString()
+        }] : []
+      };
+      
       const employeesRef = dbRef(database, 'employees');
       const newEmployeeRef = push(employeesRef);
-      await set(newEmployeeRef, employee);
+      await set(newEmployeeRef, fullEmployee);
     } catch (error) {
       console.error('Ошибка добавления сотрудника:', error);
       throw error;
     }
   };
-
-  // Функция для обновления сотрудника
+  
   const updateEmployee = async (employee) => {
     try {
+      const updates = {
+        ...employee
+      };
+      
+      if (employee.positionAction) {
+        if (!updates.positionChanges) updates.positionChanges = [];
+        updates.positionChanges.push({
+          action: employee.positionAction,
+          position: employee.position,
+          date: employee.changeDate || new Date().toISOString()
+        });
+      }
+      
+      if (employee.salary) {
+        if (!updates.salaryChanges) updates.salaryChanges = [];
+        updates.salaryChanges.push({
+          salary: employee.salary,
+          monthlyBonus: employee.monthlyBonus || 0,
+          quarterlyBonus: employee.quarterlyBonus || 0,
+          date: employee.changeDate || new Date().toISOString()
+        });
+      }
+      
+      if (employee.comment) {
+        if (!updates.comments) updates.comments = [];
+        updates.comments.push(employee.comment);
+      }
+      
       const employeeRef = dbRef(database, `employees/${employee.id}`);
-      await update(employeeRef, employee);
+      await update(employeeRef, updates);
     } catch (error) {
       console.error('Ошибка обновления сотрудника:', error);
       throw error;
     }
   };
-
   // Функция для удаления сотрудника
   const deleteEmployee = async (id) => {
     try {
@@ -96,4 +138,6 @@ export const useEmployeeStore = defineStore('employee', () => {
     updateEmployee,
     deleteEmployee,
   };
+
 });
+
