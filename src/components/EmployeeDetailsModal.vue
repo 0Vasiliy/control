@@ -35,8 +35,10 @@
         <input v-model="form.changeDate" type="date" required />
       </div>
 
-      <button type="submit">Сохранить</button>
-      <button type="button" @click="close">Закрыть</button>
+    <div class="modal_block_btn">
+      <button class="save_btn" type="submit">Сохранить</button>
+      <button class="close_btn" type="button" @click="close">Закрыть</button>
+    </div>
     </form>
   </div>
 </template>
@@ -106,14 +108,21 @@ h2 {
 form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 15px;
+  padding: 20px;
 }
 
 label {
   font-weight: bold;
+  max-width: 440px;
 }
-
+input{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 input, select, textarea {
+  max-width: 450px;
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ddd;
@@ -125,8 +134,28 @@ textarea {
 }
 
 button {
-  padding: 8px 16px;
+  width: 150px;
+  padding: 8px 14px;
   margin-top: 10px;
   cursor: pointer;
+}
+.modal_block_btn{
+  display: flex;
+  justify-content: space-between;
+}
+.save_btn{
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save_btn:hover {
+  background-color: #45a049;
+}
+.close_btn{
+  background-color: #f44336;
+  color: white;
+}
+.close_btn:hover{
+  background-color: #e4372a;
 }
 </style>

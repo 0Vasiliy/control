@@ -11,10 +11,10 @@
     </thead>
     <tbody>
       <tr v-for="employee in employees" :key="employee.id">
-        <td @click="openDetailsModal(employee, 'fullName')">{{ employee.fullName }}</td>
+        <td class="table" @click="openDetailsModal(employee, 'fullName')">{{ employee.fullName }}</td>
         <td>{{ formatDate(employee.birthDate) }}</td>
-        <td @click="openDetailsModal(employee, 'position')">{{ employee.position }}</td>
-        <td @click="openDetailsModal(employee, 'salary')">{{ employee.salary }}</td>
+        <td class="table" @click="openDetailsModal(employee, 'position')">{{ employee.position }}</td>
+        <td class="table" @click="openDetailsModal(employee, 'salary')">{{ employee.salary }}</td>
         <td>
           <button class="edit_btn" @click="$emit('edit', employee)">Редактировать</button>
           <button class="delete_btn" @click="openDeleteConfirmation(employee.id)">Удалить</button>
@@ -139,5 +139,8 @@ button {
 }
 .delete_btn:hover{
   background-color: #e4372a;
+}
+.table{
+  cursor: pointer;
 }
 </style> 
