@@ -121,8 +121,13 @@ input{
   margin-top: 5px;
   margin-bottom: 5px;
 }
-input, select, textarea {
+input, textarea {
   max-width: 450px;
+}
+select{
+  max-width: 470px;
+}
+input, select, textarea {
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ddd;

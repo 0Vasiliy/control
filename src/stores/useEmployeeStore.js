@@ -57,6 +57,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     try {
       const fullEmployee = {
         ...employee,
+        status: employee.status || 'working',
         changesHistory: [],
         comments: employee.comment ? [employee.comment] : [],
         positionChanges: employee.position ? [{

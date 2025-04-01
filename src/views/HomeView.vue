@@ -7,6 +7,7 @@
         :employees="employees" 
         @edit="openModal" 
         @delete="deleteEmployee" 
+        @update="updateEmployeeStatus"
       />
       <Pagination 
         :currentPage="currentPage" 
@@ -83,7 +84,17 @@ const saveEmployee = async (employee) => {
     }
   }
 };
-
+const updateEmployeeStatus = async (employee) => {
+  try {
+    await employeeStore.updateEmployee(employee);
+    await employeeStore.fetchEmployees(currentPage.value);
+  } catch (error) {
+    console.error('Ошибка обновления статуса:', error);
+    if (error.response?.status === 401) {
+      router.push('/login');
+    }
+  }
+};
 const deleteEmployee = async (id) => {
   try {
     await employeeStore.deleteEmployee(id);
