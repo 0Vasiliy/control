@@ -10,6 +10,14 @@
       <input v-model="form.position" type="text" required />
       <label>Оклад:</label>
       <input v-model="form.salary" type="number" required />
+      <label>Статус:</label>
+      <select v-model="form.status" required>
+        <option value="internship">Стажировка</option>
+        <option value="working">Работает</option>
+        <option value="vacation">В отпуске</option>
+        <option value="sick">На больничном</option>
+        <option value="fired">Уволен</option>
+      </select>
       <button type="submit">Сохранить</button>
       <button type="button" @click="close">Закрыть</button>
     </form>
@@ -36,6 +44,7 @@ const form = ref({
   birthDate: '',
   position: '',
   salary: '',
+  status: 'working',
 });
 
 // Следим за изменением пропса employee и обновляем форму
@@ -59,10 +68,10 @@ const close = () => {
 .modal{
   position: fixed;
   max-width: 400px;
-  max-height: 500px;
+  max-height: 600px;
   background-color: rgb(177, 184, 184);
   border-radius: 5px;
-  top: 20%;
+  top: 10%;
   left: 35%;
 }
 h2{
@@ -85,5 +94,12 @@ button{
 }
 button:hover {
   background-color: #45a049;
+}
+select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin-bottom: 10px;
 }
 </style>
