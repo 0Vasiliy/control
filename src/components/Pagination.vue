@@ -1,17 +1,15 @@
 <template>
   <div class="pagination">
-    <!-- Кнопки пагинации -->
     <button 
       v-for="page in totalPages" 
       :key="page" 
-      :class="{ active: page === currentPage }"
+      :class="{ active: page === currentPage, flipping: page === currentPage }"
       @click="changePage(page)"
     >
       {{ page }}
     </button>
   </div>
 </template>
-
 <script setup>
 defineProps({
   currentPage: {
@@ -26,13 +24,16 @@ defineProps({
 
 const emit = defineEmits(['changePage']);
 
-// Функция для изменения страницы
+
 const changePage = (page) => {
   emit('changePage', page);
 };
 </script>
 
 <style scoped>
+.pagination button.flipping {
+  animation: pageFlip 0.6s ease-out;
+}
 .pagination {
   display: flex;
   justify-content: center;

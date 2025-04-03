@@ -20,7 +20,10 @@
     <tbody>
       <tr v-for="employee in sortedEmployees" 
       :key="employee.id" 
-      :class="getRowClass(employee.status)">
+      :class="[getRowClass(employee.status), 
+                  { 'employee-created': employee.isNew, 
+                    'employee-deleted': employee.isDeleting,
+                    'employee-status-change': animatedStatusChange[employee.id] }]">
         <td class="table" @click="openDetailsModal(employee, 'fullName')">{{ employee.fullName }}</td>
         <td>{{ formatDate(employee.birthDate) }}</td>
         <td class="table" @click="openDetailsModal(employee, 'position')">{{ employee.position }}</td>
@@ -77,6 +80,7 @@ const selectedEmployee = ref(null);
 const selectedField = ref('');
 const sortField = ref('fullName');
 const sortDirection = ref('asc');
+const animatedStatusChange = ref({});
 
 const sortedEmployees = computed(() => {
   return [...props.employees].sort((a, b) => {
@@ -108,10 +112,16 @@ const sortBy = (field) => {
 };
 
 const openDeleteConfirmation = (id) => {
-  employeeToDelete.value = id;
-  showDeleteConfirmation.value = true;
+  const employee = props.employees.find(e => e.id === id);
+  if (employee) {
+    employee.isDeleting = true;
+    setTimeout(() => {
+      employeeToDelete.value = id;
+      showDeleteConfirmation.value = true;
+      employee.isDeleting = false;
+    }, 800);
+  }
 };
-
 const confirmDelete = () => {
   emit('delete', employeeToDelete.value);
   showDeleteConfirmation.value = false;
@@ -132,12 +142,21 @@ const closeDetailsModal = () => {
 };
 
 const handleDetailsSave = (updatedEmployee) => {
+  updatedEmployee.isNew = true;
   emit('edit', updatedEmployee);
+  setTimeout(() => {
+    updatedEmployee.isNew = false;
+  }, 800);
   closeDetailsModal();
 };
-
 const updateStatus = (employee) => {
+  animatedStatusChange.value[employee.id] = true;
+  employee.isNew = true;
   emit('update', employee);
+  setTimeout(() => {
+    animatedStatusChange.value[employee.id] = false;
+    employee.isNew = false;
+  }, 800);
 };
 const getRowClass = (status) => {
   switch(status) {

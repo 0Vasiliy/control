@@ -71,9 +71,11 @@ const closeModal = () => {
 const saveEmployee = async (employee) => {
   try {
     if (employee.id) {
+      employee.isNew = true; // Добавляем флаг для анимации
       await employeeStore.updateEmployee(employee);
     } else {
       await employeeStore.addEmployee(employee);
+      // Для нового сотрудника анимация будет при получении данных из хранилища
     }
     closeModal();
     await employeeStore.fetchEmployees(currentPage.value);
@@ -84,9 +86,23 @@ const saveEmployee = async (employee) => {
     }
   }
 };
+// const updateEmployeeStatus = async (employee) => {
+//   try {
+//     await employeeStore.updateEmployee(employee);
+//     await employeeStore.fetchEmployees(currentPage.value);
+//   } catch (error) {
+//     console.error('Ошибка обновления статуса:', error);
+//     if (error.response?.status === 401) {
+//       router.push('/login');
+//     }
+//   }
+// };
 const updateEmployeeStatus = async (employee) => {
   try {
-    await employeeStore.updateEmployee(employee);
+    await employeeStore.updateEmployee({
+      ...employee,
+      status: employee.status 
+    });
     await employeeStore.fetchEmployees(currentPage.value);
   } catch (error) {
     console.error('Ошибка обновления статуса:', error);

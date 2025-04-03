@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" :class="{ closing: isClosing }">
     <h2>{{ employee ? 'Редактировать сотрудника' : 'Добавить сотрудника' }}</h2>
     <form @submit.prevent="save">
       <label>ФИО:</label>
@@ -26,6 +26,8 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+
+const isClosing = ref(false);
 
 // Получаем пропсы от родительского компонента
 const props = defineProps({
@@ -61,7 +63,10 @@ const save = () => {
 
 // Функция для закрытия модального окна
 const close = () => {
-  emit('close');
+  isClosing.value = true;
+  setTimeout(() => {
+    emit('close');
+  }, 500); // Должно совпадать с длительностью анимации
 };
 </script>
 <style scoped>
