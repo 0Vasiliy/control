@@ -70,7 +70,15 @@ export const useEmployeeStore = defineStore('employee', () => {
           monthlyBonus: employee.monthlyBonus || 0,
           quarterlyBonus: employee.quarterlyBonus || 0,
           date: employee.changeDate || new Date().toISOString()
-        }] : []
+        }] : [],
+       
+        phone: employee.phone || '',
+        email: employee.email || '',
+        address: employee.address || '',
+        passportNumber: employee.passportNumber || '',
+        passportIssuedBy: employee.passportIssuedBy || '',
+        passportIssueDate: employee.passportIssueDate || '',
+        passportDepartmentCode: employee.passportDepartmentCode || ''
       };
       
       const employeesRef = dbRef(database, 'employees');
