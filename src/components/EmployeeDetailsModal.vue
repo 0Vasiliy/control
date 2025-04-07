@@ -70,7 +70,7 @@ const fieldTitle = computed(() => {
 
 const form = ref({
   ...props.employee,
-  comment: '',
+  comment: props.employee.comments?.length > 0 ? props.employee.comments[props.employee.comments.length - 1] : '',
   positionAction: 'transfer',
   monthlyBonus: 0,
   quarterlyBonus: 0,
@@ -78,16 +78,18 @@ const form = ref({
 });
 
 const save = () => {
-  emit('save', form.value);
+  const updatedData = {
+    ...form.value,
+    comments: form.value.comment ? [...(props.employee.comments || []), form.value.comment] : props.employee.comments || []
+  };
+  emit('save', updatedData);
 };
-
 const close = () => {
   emit('close');
 };
 </script>
-
 <style scoped>
-/* Use the same styles as EmployeeModal.vue */
+
 .modal {
   position: fixed;
   max-width: 500px;

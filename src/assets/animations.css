@@ -96,3 +96,62 @@
   .employee-status-change {
     animation: statusChange 0.8s ease-out;
   }  
+
+  @keyframes savePulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+  }
+  
+  form.saving {
+    animation: savePulse 1s;
+    position: relative;
+  }
+  
+  form.saving::after {
+    content: '✓';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background-color: #4CAF50;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    animation: fadeInOut 1s;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0.5); }
+  }
+
+  /* Анимация для сохранения - пульсация */
+@keyframes savePulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* Анимация галочки */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* Анимация для синхронизации данных */
+@keyframes syncPulse {
+  0% { background-color: inherit; }
+  50% { background-color: #e3f2fd; }
+  100% { background-color: inherit; }
+}
+
+.syncing {
+  animation: syncPulse 1.5s;
+}
