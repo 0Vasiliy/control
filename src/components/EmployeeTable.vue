@@ -80,8 +80,9 @@ const selectedEmployee = ref(null);
 const selectedField = ref('');
 const sortField = ref('fullName');
 const sortDirection = ref('asc');
-const animatedStatusChange = ref({});
+const animatedStatusChange = ref({});// Для анимации изменения статуса
 
+// Сортировка сотрудников
 const sortedEmployees = computed(() => {
   return [...props.employees].sort((a, b) => {
     let modifier = 1;
@@ -93,6 +94,7 @@ const sortedEmployees = computed(() => {
   });
 });
 
+// Форматирование даты
 const formatDate = (date) => {
   if (!date) return '';
   try {
@@ -102,6 +104,7 @@ const formatDate = (date) => {
   }
 };
 
+// Сортировка по полю
 const sortBy = (field) => {
   if (sortField.value === field) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
@@ -110,11 +113,11 @@ const sortBy = (field) => {
     sortDirection.value = 'asc';
   }
 };
-
+// Управление подтверждением удаления
 const openDeleteConfirmation = (id) => {
   const employee = props.employees.find(e => e.id === id);
   if (employee) {
-    employee.isDeleting = true;
+    employee.isDeleting = true; // Анимация удаления
     setTimeout(() => {
       employeeToDelete.value = id;
       showDeleteConfirmation.value = true;
@@ -122,6 +125,7 @@ const openDeleteConfirmation = (id) => {
     }, 800);
   }
 };
+// Обработчики модального окна удаления
 const confirmDelete = () => {
   emit('delete', employeeToDelete.value);
   showDeleteConfirmation.value = false;
@@ -130,7 +134,7 @@ const confirmDelete = () => {
 const cancelDelete = () => {
   showDeleteConfirmation.value = false;
 };
-
+// Управление модальным окном деталей
 const openDetailsModal = (employee, field) => {
   selectedEmployee.value = employee;
   selectedField.value = field;
@@ -140,17 +144,18 @@ const openDetailsModal = (employee, field) => {
 const closeDetailsModal = () => {
   showDetailsModal.value = false;
 };
-
+// Обработчик сохранения изменений из модального окна деталей
 const handleDetailsSave = (updatedEmployee) => {
-  updatedEmployee.isNew = true;
+  updatedEmployee.isNew = true; // Анимация обновления
   emit('edit', updatedEmployee);
   setTimeout(() => {
     updatedEmployee.isNew = false;
   }, 800);
   closeDetailsModal();
 };
+// Обновление статуса сотрудника
 const updateStatus = (employee) => {
-  animatedStatusChange.value[employee.id] = true;
+  animatedStatusChange.value[employee.id] = true; // Анимация изменения статуса
   employee.isNew = true;
   emit('update', employee);
   setTimeout(() => {
@@ -158,6 +163,7 @@ const updateStatus = (employee) => {
     employee.isNew = false;
   }, 800);
 };
+// Получение класса строки в зависимости от статуса
 const getRowClass = (status) => {
   switch(status) {
     case 'internship': return 'status-internship';

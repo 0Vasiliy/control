@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref as dbRef, push, set, onValue, remove, update } from 'firebase/database';
 
-// Конфигурация Firebase
+// Конфигурация Firebase // Тестовая база
 const firebaseConfig = {
   apiKey: "AIzaSyBjP3AEJNKVFp07ROomynZ_QzNYyzsug_4",
   authDomain: "vet-onlain.firebaseapp.com",

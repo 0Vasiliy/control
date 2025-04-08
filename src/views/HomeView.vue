@@ -36,28 +36,32 @@ import EmployeeModal from '../components/EmployeeModal.vue';
 import Pagination from '../components/Pagination.vue';
 import { useRouter } from 'vue-router';
 
+// Инициализация хранилища и роутера
 const router = useRouter();
 const employeeStore = useEmployeeStore();
+
+// Реактивные переменные для управления модальным окном
 const isModalOpen = ref(false);
 const selectedEmployee = ref(null);
 
-// Загружаем сотрудников при монтировании компонента
+// Загрузка сотрудников при монтировании компонента
 onMounted(async () => {
   try {
     await employeeStore.fetchEmployees();
   } catch (error) {
     console.error('Ошибка загрузки сотрудников:', error);
     if (error.response?.status === 401) {
-      router.push('/login');
+      router.push('/login'); // Перенаправление на страницу входа при ошибке авторизации
     }
   }
 });
 
-// Получаем данные из хранилища
+// Получение данных из хранилища
 const employees = computed(() => employeeStore.employees);
 const currentPage = computed(() => employeeStore.currentPage);
 const totalPages = computed(() => employeeStore.totalPages);
 
+// Функции для работы с модальным окном
 const openModal = (employee = null) => {
   selectedEmployee.value = employee;
   isModalOpen.value = true;
@@ -68,17 +72,17 @@ const closeModal = () => {
   selectedEmployee.value = null;
 };
 
+// Сохранение сотрудника (добавление или обновление)
 const saveEmployee = async (employee) => {
   try {
     if (employee.id) {
-      employee.isNew = true; // Добавляем флаг для анимации
+      employee.isNew = true; // Флаг для анимации обновления
       await employeeStore.updateEmployee(employee);
     } else {
       await employeeStore.addEmployee(employee);
-      // Для нового сотрудника анимация будет при получении данных из хранилища
     }
     closeModal();
-    await employeeStore.fetchEmployees(currentPage.value);
+    await employeeStore.fetchEmployees(currentPage.value); // Обновление списка после сохранения
   } catch (error) {
     console.error('Ошибка сохранения сотрудника:', error);
     if (error.response?.status === 401) {
@@ -86,17 +90,8 @@ const saveEmployee = async (employee) => {
     }
   }
 };
-// const updateEmployeeStatus = async (employee) => {
-//   try {
-//     await employeeStore.updateEmployee(employee);
-//     await employeeStore.fetchEmployees(currentPage.value);
-//   } catch (error) {
-//     console.error('Ошибка обновления статуса:', error);
-//     if (error.response?.status === 401) {
-//       router.push('/login');
-//     }
-//   }
-// };
+
+// Обновление статуса сотрудника
 const updateEmployeeStatus = async (employee) => {
   try {
     await employeeStore.updateEmployee({
@@ -111,6 +106,8 @@ const updateEmployeeStatus = async (employee) => {
     }
   }
 };
+
+// Удаление сотрудника
 const deleteEmployee = async (id) => {
   try {
     await employeeStore.deleteEmployee(id);
@@ -123,6 +120,7 @@ const deleteEmployee = async (id) => {
   }
 };
 
+// Изменение страницы пагинации
 const changePage = (page) => {
   employeeStore.fetchEmployees(page);
 };
